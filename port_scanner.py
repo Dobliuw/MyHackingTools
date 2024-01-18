@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-import socket, signal, sys, argparse, time, threading
+import socket, signal, sys, argparse, time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from termcolor import colored
+from banners import port_scan_banner
 
 # Global Vars
 dobliuw = colored("Dobliuw Scan", 'red')
 open_str = colored("open", 'green')
 url = colored('https://github.com/Dobliuw/MyHackingTools', 'blue')
 open_sockets = []
-open_ports_finded = []
+open_ports_found = []
 
 # Ctrl + c
 def ctrl_c(sig, frame):
@@ -19,17 +20,6 @@ def ctrl_c(sig, frame):
     sys.exit(1)
 
 signal.signal(signal.SIGINT, ctrl_c)
-
-# Banner
-def banner():
-    print(colored("""
-________        ___.   .__  .__               
-\______ \   ____\_ |__ |  | |__|__ ____  _  ___
- |    |  \ /  _ \| __ \|  | |  |  |  \ \/ \/  /
- |    `   (  <_> ) \_\ \  |_|  |  |  /\      / 
-/_______  /\____/|___  /____/__|____/  \_/\_/   Scan ツ ...
-        \/           \/                       
-""", 'green'))
 
 # Get Actual time
 def actual_time():
@@ -75,7 +65,7 @@ def port_scanner(host, port, show_headers):
         try:    
             soc.connect((host, port))
             soc.sendall(b"HEAD / HTTP/1.0\r\n\r\n")
-            open_ports_finded.append(port)
+            open_ports_found.append(port)
 
             if show_headers:
                 header = soc.recv(1024).decode(errors='ignore') # Get Headers
@@ -111,14 +101,13 @@ if __name__ == "__main__":
     try:
         target, ports, thread, show_headers = get_arguments()
         max_workers = thread if thread > 0 and thread <= 500 else 10 
-        banner()
+        port_scan_banner()
         now = actual_time()
         
         print(f"Starting {dobliuw} v1.0 ( {url} ) at {now}")
-        print("\n\t%s Starting analysis for target %s...\n" % (colored("[i]", "yellow"), colored(target, 'yellow')))
+        print("\n\t[i] Starting analysis for target %s...\n" % (colored(target, 'yellow')))
 
         time.sleep(1)
-
 
         print("\nPORT   STATE")
 
@@ -129,7 +118,7 @@ if __name__ == "__main__":
             executor.map(lambda port: port_scanner(target, port, show_headers), port_parser(ports))
 
         end_time = time.time()
-        print("\n%s Final %s ports: %s" % (colored('[+]','green'),open_str, colored(', '.join([str(port) for port in sorted(open_ports_finded)]), 'blue')))
+        print("\n%s Final %s ports: %s" % (colored('[+]','green'),open_str, colored(', '.join([str(port) for port in sorted(open_ports_found)]), 'blue')))
         print(f"\n{dobliuw} v1.0 done: 1 IP address (1 host up) scanned in {round(end_time - start_time, 2)} seconds")
         sys.exit(0)
 
