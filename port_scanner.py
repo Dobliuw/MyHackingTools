@@ -115,7 +115,7 @@ if __name__ == "__main__":
         now = actual_time()
         
         print(f"Starting {dobliuw} v1.0 ( {url} ) at {now}")
-        print("\n\t[i] Starting analysis for target %s...\n" % (colored(target, 'yellow')))
+        print("\n\t%s Starting analysis for target %s...\n" % (colored("[i]", "yellow"), colored(target, 'yellow')))
 
         time.sleep(1)
 
