@@ -35,7 +35,7 @@ def get_arguments():
     
     args = parser.parse_args()
 
-    return args.target_str, args.max_threads if args.max_threads else 10
+    return args.target_str, int(args.max_threads) if args.max_threads else 10
 
 # Parse the target/s
 def parse_target(target):

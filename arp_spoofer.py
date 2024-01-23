@@ -63,7 +63,7 @@ if __name__ == "__main__":
                 mac_address = re.search(r'(\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', stdout).group(1)
                 
                 time.sleep(2)
-                print("%s Spoofing the ARP Table for IP %s and Gateway IP (%s) with mac %s...\n\n%s You can open wireshark/tshark right now...or...%s better" % (info, colored(target_ip, 'yellow'), colored(gateway_address, 'yellow'), colored(mac_address, 'yellow'), info, colored("Sniffer DNS by Dobliuw", "blue")))
+                print("%s Spoofing the ARP Table for IP %s and Gateway IP (%s) with mac %s...\n\n%s You can open wireshark/tshark right now..." % (info, colored(target_ip, 'yellow'), colored(gateway_address, 'yellow'), colored(mac_address, 'yellow'), info))
                 
                 while True:
                     if mac_address:
