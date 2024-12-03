@@ -35,6 +35,7 @@ def skull_banner():
     time.sleep(1)
     os.system("clear" if os.name == 'posix' else 'cls')
 
+skull_banner()
 # ARP Spoofer 
 def arp_spoofer():
     print(colored("""
